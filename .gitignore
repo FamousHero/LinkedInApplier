@@ -1,2 +1,3 @@
 #ingnore .env file
 .env
+.venv/*
