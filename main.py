@@ -1,48 +1,21 @@
-#First python script in years so not comepletely compliant with standard
-#hard-coding csrf value and other web form values until it breaks
 from dotenv import load_dotenv
-from bs4 import _soup
+from selenium import webdriver
+from selenium.webdriver import Chrome
+from pathlib import Path
+import undetected_chromedriver as uc
+import time
 import os
-import requests
+
+debugging = True
+load_dotenv()
+
+USER_EMAIL=os.getenv("USER_EMAIL")
+USER_PASSWORD=os.getenv("USER_PASSWORD")
 
 
-class LinedInBot:
-    def __init__(self, login, password) -> None:
-        self.login = login
-        self.password = password
-        self.client = requests.Session()
-        #scoped to static var so i not global at least
-        self._homepageURL = 'https://www.linkedin.com'
-        self._loginURL = 'https://www.linkedin.com/uas/login=submit'
 
-    def LoadSoup(self, url):
-        """
-        Helper function to feed html response to soup parser
-        """
-        html = self.client.get(url)
-        soup = _soup(html.text, "html.parser")
-        return soup
+driver = uc.Chrome()
 
-    #
-    def Homepage(self):
-        """
-        Load the homepage and returned a parsed html version 
-        """
-        soup = self.LoadSoup(self._homepageURL)
-        return soup
+driver.get('https://www.google.com/')
 
-    def Run(self):
-        """Base method IYKYK"""
-        print(self.password)
-        print(self.login)
-        self.Homepage()
-
-def main():
-    load_dotenv('.env')
-    login: str =  os.getenv('LOGIN')
-    password: str = os.getenv('Password') 
-    friend = LinedInBot(login, password)
-    friend.Run()
-
-if __name__ == "__main__":
-    main()
+time.sleep(5)
